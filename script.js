@@ -1,6 +1,7 @@
 // This is the boilerplate code given for you
 // You can modify this code
 // Product data
+
 const products = [
   { id: 1, name: "Product 1", price: 10 },
   { id: 2, name: "Product 2", price: 20 },
@@ -22,17 +23,73 @@ function renderProducts() {
 }
 
 // Render cart list
-function renderCart() {}
+function renderCart() {
+	const cartList = document.getElementById("cart-list");
+	cartList.innerHTML=""
+	
+	const cart = JSON.parse(sessionStorage.getItem('cart'))||[];
+	cart.forEach(productId=>{
+		let pro = products.find(p=>p.id==productId);
+		console.log(pro)
+		const li = document.createElement("li");
+		li.innerHTML = `${pro.name} 
+		<button class="remove-btn" onClick="removeFromCart(${pro.id})">Remove</buton>`;
+		cartList.append(li);
+	})
+	
+}
 
 // Add item to cart
-function addToCart(productId) {}
+function addToCart(productId) {
+	let cart = JSON.parse(sessionStorage.getItem('cart'))||[];
+	if(cart.find(p=>p===productId)){
+		return
+	}
+	cart.push(productId)
+	sessionStorage.setItem('cart',JSON.stringify(cart));
+	renderCart();
+	
+}
 
 // Remove item from cart
-function removeFromCart(productId) {}
+function removeFromCart(productId) {
+	let cart = JSON.parse(sessionStorage.getItem('cart'))||[];
+	cart = cart.filter((pid)=>pid != productId);
+	sessionStorage.setItem('cart', JSON.stringify(cart));
+	renderCart();
+}
 
 // Clear cart
-function clearCart() {}
+function clearCart() {
+	sessionStorage.removeItem('cart');
+	renderCart()
+}
+document.getElementById("clear-cart-btn").addEventListener('click',()=>clearCart())
 
 // Initial render
-renderProducts();
+renderProducts(); 
+document.querySelectorAll(".add-to-cart-btn").forEach((product)=>{
+	product.addEventListener('click',(event)=>{
+		addToCart(event.target.getAttribute('data-id'));
+	})
+})
 renderCart();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
