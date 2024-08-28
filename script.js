@@ -45,12 +45,14 @@ function addToCart(productId) {
 	const isProductThere = cart.find(p=>p.id==productId);
 	const selectedProduct = products.find(p=>p.id==productId)
 
-	if(!isProductThere){
-		cart.push(selectedProduct)
+	// if(!isProductThere){
+	// 	cart.push(selectedProduct)
+	// 	sessionStorage.setItem('cart',JSON.stringify(cart))
+	// }else{
+	// 	return
+	// }
+	cart.push(selectedProduct)
 		sessionStorage.setItem('cart',JSON.stringify(cart))
-	}else{
-		return
-	}
 	renderCart()
 	
 	
