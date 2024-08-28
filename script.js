@@ -40,23 +40,19 @@ function renderCart() {
 
 // Add item to cart
 function addToCart(productId) {
-	let cart = JSON.parse(sessionStorage.getItem('cart'))||[];
-	
-	const isProductThere = cart.find(p=>p.id==productId);
-	const selectedProduct = products.find(p=>p.id==productId)
+  let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
-	// if(!isProductThere){
-	// 	cart.push(selectedProduct)
-	// 	sessionStorage.setItem('cart',JSON.stringify(cart))
-	// }else{
-	// 	return
-	// }
-	cart.push(selectedProduct)
-		sessionStorage.setItem('cart',JSON.stringify(cart))
-	renderCart()
-	
-	
+
+  const selectedProduct = products.find(p => p.id == productId);
+
+
+  cart.push(selectedProduct);
+
+  sessionStorage.setItem('cart', JSON.stringify(cart));
+
+  renderCart();
 }
+
 
 // Remove item from cart
 function removeFromCart(productId) {
