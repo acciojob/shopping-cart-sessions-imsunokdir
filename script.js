@@ -28,12 +28,11 @@ function renderCart() {
 	cartList.innerHTML=""
 	
 	const cart = JSON.parse(sessionStorage.getItem('cart'))||[];
-	cart.forEach(productId=>{
-		let pro = products.find(p=>p.id==productId);
-		console.log(pro)
+	console.log("cart",cart)
+	cart.forEach(product=>{
 		const li = document.createElement("li");
-		li.innerHTML = `${pro.name} 
-		<button class="remove-btn" onClick="removeFromCart(${pro.id})">Remove</buton>`;
+		li.innerHTML = `${product.name} 
+		<button class="remove-btn" onClick="removeFromCart(${product.id})">Remove</buton>`;
 		cartList.append(li);
 	})
 	
@@ -42,19 +41,25 @@ function renderCart() {
 // Add item to cart
 function addToCart(productId) {
 	let cart = JSON.parse(sessionStorage.getItem('cart'))||[];
-	if(cart.find(p=>p===productId)){
+	
+	const isProductThere = cart.find(p=>p.id==productId);
+	const selectedProduct = products.find(p=>p.id==productId)
+
+	if(!isProductThere){
+		cart.push(selectedProduct)
+		sessionStorage.setItem('cart',JSON.stringify(cart))
+	}else{
 		return
 	}
-	cart.push(productId)
-	sessionStorage.setItem('cart',JSON.stringify(cart));
-	renderCart();
+	renderCart()
+	
 	
 }
 
 // Remove item from cart
 function removeFromCart(productId) {
 	let cart = JSON.parse(sessionStorage.getItem('cart'))||[];
-	cart = cart.filter((pid)=>pid != productId);
+	cart = cart.filter((pro)=>pro.id != productId);
 	sessionStorage.setItem('cart', JSON.stringify(cart));
 	renderCart();
 }
